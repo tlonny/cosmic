@@ -1,5 +1,7 @@
 export { charon } from "@src/card/moon/charon"
+export { enceladus } from "@src/card/moon/enceladus"
 export { europa } from "@src/card/moon/europa"
+export { ganymede } from "@src/card/moon/ganymede"
 export { iapetus } from "@src/card/moon/iapetus"
 export { io } from "@src/card/moon/io"
 export { moon } from "@src/card/moon/moon"
