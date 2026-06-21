@@ -9,7 +9,7 @@ import {
 import * as hook from "@src/hook"
 
 const STAR_TILE_SIZE = 512
-const TOTAL_FLIGHT_DURATION_MS = hook.DEPART_DURATION_MS + hook.TRAVEL_DURATION_MS + hook.ARRIVAL_DURATION_MS
+const TOTAL_FLIGHT_DURATION_MS = hook.DEPART_DURATION_MS + hook.MIN_TRAVELLING_DURATION_MS + hook.ARRIVAL_DURATION_MS
 
 type FeedProps = {
     state: hook.state.State;
