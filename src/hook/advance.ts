@@ -6,9 +6,7 @@ export const DEPART_DURATION_MS = 280
 export const MIN_TRAVELLING_DURATION_MS = 280
 export const ARRIVAL_DURATION_MS = 520
 
-const imageLoadCache = new Map<string, Promise<void>>()
-
-export function useAdvance(travel: hook.state.Travel, current: hook.state.Current | null, dispatch: hook.state.Dispatch) {
+export function useAdvance(travel: hook.state.Travel, current: hook.state.Current, dispatch: hook.state.Dispatch) {
     useEffect(() => {
         if (travel.phase === "DEPARTING") {
             const timer = setTimeout(() => {
@@ -23,7 +21,7 @@ export function useAdvance(travel: hook.state.Travel, current: hook.state.Curren
 
             Promise.all([
                 util.sleep(MIN_TRAVELLING_DURATION_MS),
-                current ? loadImage(current.card.imageUrl) : Promise.resolve(),
+                util.preloadImage(current.card.imageUrl),
             ]).then(() => {
                 if (isActive) {
                     dispatch({ type: "SET_ARRIVING" })
@@ -42,25 +40,5 @@ export function useAdvance(travel: hook.state.Travel, current: hook.state.Curren
 
             return () => clearTimeout(timer)
         }
-    }, [current?.card.imageUrl, dispatch, travel.phase])
-}
-
-function loadImage(src: string) {
-    const cachedLoad = imageLoadCache.get(src)
-
-    if (cachedLoad) {
-        return cachedLoad
-    }
-
-    const load = new Promise<void>((resolve) => {
-        const image = new Image()
-
-        image.onload = () => resolve()
-        image.onerror = () => resolve()
-        image.src = src
-    })
-
-    imageLoadCache.set(src, load)
-
-    return load
+    }, [current.card.imageUrl, dispatch, travel.phase])
 }
