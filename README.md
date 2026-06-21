@@ -1,9 +1,9 @@
-# cosmic
+# Cosmic Roulette
 
 ![Check](https://github.com/tlonny/cosmic/actions/workflows/check.yml/badge.svg)
 ![Release](https://github.com/tlonny/cosmic/actions/workflows/release.yml/badge.svg)
 
-Dynamic React website for Cosmic.
+Swipeable astronomy flash cards for toddlers learning about space.
 
 ## Develop locally
 
