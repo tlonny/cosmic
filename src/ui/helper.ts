@@ -89,6 +89,10 @@ export function formatClassification(classification: CardClassification) {
         return "Dwarf planet"
     }
 
+    if (classification === "GALAXY") {
+        return "Galaxy"
+    }
+
     if (classification === "MOON") {
         return "Moon"
     }

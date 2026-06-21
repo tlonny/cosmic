@@ -1,5 +1,6 @@
 import { introBanner } from "@src/card/intro-banner"
 import * as dwarfPlanet from "@src/card/dwarf-planet"
+import * as galaxy from "@src/card/galaxy"
 import * as moon from "@src/card/moon"
 import * as planet from "@src/card/planet"
 import * as star from "@src/card/star"
@@ -27,4 +28,5 @@ export const cards: Card[] = [
     planet.neptune,
     dwarfPlanet.pluto,
     moon.charon,
+    galaxy.sombrero,
 ]

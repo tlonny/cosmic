@@ -4,6 +4,7 @@ export type CardClassification =
   | "GAS_GIANT"
   | "ICE_GIANT"
   | "DWARF_PLANET"
+  | "GALAXY"
   | "MOON"
   | "YELLOW_DWARF_STAR";
 
