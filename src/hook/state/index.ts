@@ -35,7 +35,7 @@ export type State = {
   deck: card.Card[];
   historyStack: Current[];
   futureStack: Current[];
-  current: Current | null;
+  current: Current;
   introLoaded: boolean;
   drag: DragState | null;
   departureOffsetY: number;
@@ -96,11 +96,20 @@ function reduce(state: State, action: Action): State {
 }
 
 function createInitialState(): State {
+    const selectedBlurb = util.random.take(card.introBanner.blurb)
+
+    if (!selectedBlurb.isSuccess) {
+        throw new Error("Invariant violation: intro banner has no blurbs.")
+    }
+
     return {
         deck: util.random.shuffle(card.deck),
         historyStack: [],
         futureStack: [],
-        current: null,
+        current: {
+            card: card.introBanner,
+            blurb: selectedBlurb.value,
+        },
         introLoaded: false,
         drag: null,
         departureOffsetY: 0,
