@@ -5,7 +5,7 @@ export function App() {
     const [state, dispatch] = hook.useState()
 
     hook.usePreload(dispatch)
-    hook.useAdvance(state.travel, dispatch)
+    hook.useAdvance(state.travel, state.current, dispatch)
 
     if (!state.introLoaded) {
         return (
