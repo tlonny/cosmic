@@ -1,5 +1,5 @@
 import type * as hook from "@src/hook"
-import type * as card from "@src/card"
+import * as card from "@src/card"
 import * as util from "@src/util"
 
 export type Action = {
@@ -39,9 +39,9 @@ export function reduce(state: hook.state.State): hook.state.State {
     }
 
     if (!next && deck.length === 0) {
-        deck = util.random.shuffle(state.source)
+        deck = util.random.shuffle(card.deck)
 
-        if (deck[0]?.id === current.card.id && deck.length > 1) {
+        if (deck[0]?.id === current.card.id) {
             const swapIndex = util.random.index(deck.length - 1)
 
             if (!swapIndex.isSuccess) {

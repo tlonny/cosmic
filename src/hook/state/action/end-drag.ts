@@ -1,4 +1,5 @@
 import type * as hook from "@src/hook"
+import * as card from "@src/card"
 
 export type Action = {
   type: "END_DRAG";
@@ -38,5 +39,5 @@ function canDepart(state: hook.state.State, forward: boolean) {
         return state.historyStack.length > 0
     }
 
-    return state.futureStack.length > 0 || state.deck.length > 0 || state.source.length > 0
+    return state.futureStack.length > 0 || state.deck.length > 0 || card.deck.length > 0
 }
