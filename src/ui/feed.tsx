@@ -25,8 +25,8 @@ export function Feed({ state, dispatch }: FeedProps) {
     } = state
     const travelPhase = travel.phase
     const canInteract = isIdle(travelPhase)
-    const activeCard = current?.card ?? null
-    const selectedBlurb = current?.blurb ?? null
+    const activeCard = current.card
+    const selectedBlurb = current.blurb
     const offsetY = getDragOffset(travelPhase, drag)
     const stageStyle = useMemo(
         () => ({
@@ -89,39 +89,41 @@ export function Feed({ state, dispatch }: FeedProps) {
                 style={starStyle as CSSProperties}
             />
 
-            {!activeCard ? null : (
-                <div
-                    className="card-stage"
-                    data-dragging={drag !== null}
-                    data-travel-forward={travel.forward}
-                    data-travel-phase={travelPhase}
-                    style={stageStyle as CSSProperties}
+            <div
+                className="card-stage"
+                data-dragging={drag !== null}
+                data-travel-forward={travel.forward}
+                data-travel-phase={travelPhase}
+                style={stageStyle as CSSProperties}
+            >
+                <span className="body-heading">
+                    <strong>{activeCard.title}</strong>
+                    <small>{formatClassification(activeCard.classification)}</small>
+                </span>
+
+                <button
+                    className="card-button"
+                    type="button"
+                    aria-label={`Swipe ${activeCard.title}`}
+                    disabled={!canInteract}
+                    onPointerDown={handlePointerDown}
+                    onPointerMove={handlePointerMove}
+                    onPointerUp={handlePointerUp}
+                    onPointerCancel={() => dispatch({ type: "CANCEL_DRAG" })}
                 >
-                    <span className="body-heading">
-                        <strong>{activeCard.title}</strong>
-                        <small>{formatClassification(activeCard.classification)}</small>
-                    </span>
+                    <img
+                        key={activeCard.id}
+                        className="body-image"
+                        src={activeCard.imageUrl}
+                        alt={activeCard.title}
+                        draggable={false}
+                    />
+                </button>
 
-                    <button
-                        className="card-button"
-                        type="button"
-                        aria-label={`Swipe ${activeCard.title}`}
-                        disabled={!canInteract}
-                        onPointerDown={handlePointerDown}
-                        onPointerMove={handlePointerMove}
-                        onPointerUp={handlePointerUp}
-                        onPointerCancel={() => dispatch({ type: "CANCEL_DRAG" })}
-                    >
-                        <img className="body-image" src={activeCard.imageUrl} alt={activeCard.title} draggable={false} />
-                    </button>
-
-                    {selectedBlurb && (
-                        <span className="body-blurb">
-                            <em>{selectedBlurb}</em>
-                        </span>
-                    )}
-                </div>
-            )}
+                <span className="body-blurb">
+                    <em>{selectedBlurb}</em>
+                </span>
+            </div>
         </section>
     )
 }
