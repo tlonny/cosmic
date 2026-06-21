@@ -54,36 +54,26 @@ button {
 
 .star-layer {
   position: absolute;
-  inset: -512px 0;
+  inset: calc(var(--star-tile-size) * -1) 0;
   z-index: -2;
   background-repeat: repeat;
-  background-size: 512px 512px;
+  background-size: var(--star-tile-size) var(--star-tile-size);
   transform: translate3d(0, 0, 0);
   will-change: transform;
 }
 
-.feed-status {
-  position: absolute;
-  top: max(18px, env(safe-area-inset-top));
-  left: 50%;
-  z-index: 2;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  width: min(560px, calc(100vw - 28px));
-  transform: translateX(-50%);
-  color: rgba(248, 251, 255, 0.82);
-  font-size: 0.78rem;
-  pointer-events: none;
+.star-layer:not([data-travel-phase="IDLE"]) {
+  animation: star-flight var(--star-flight-duration) cubic-bezier(.42, 0, .2, 1) both;
 }
 
-.feed-status span {
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 999px;
-  padding: 7px 10px;
-  background: rgba(4, 8, 12, 0.44);
-  backdrop-filter: blur(10px);
+@keyframes star-flight {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, var(--star-flight-offset), 0);
+  }
 }
 
 .card-stage {
@@ -93,7 +83,44 @@ button {
   justify-items: center;
   place-items: center;
   width: min(90vw, var(--body-image-max-size));
+  transform: translate3d(0, var(--card-drag-offset-y), 0) scale(var(--card-drag-scale));
   will-change: transform;
+}
+
+.card-stage[data-dragging="false"][data-travel-phase="IDLE"] {
+  transition: transform 520ms cubic-bezier(.16, 1.2, .32, 1);
+}
+
+.card-stage[data-travel-phase="DEPARTING"] {
+  animation: card-departs var(--card-animation-duration) cubic-bezier(.5, 0, 1, .65) both;
+}
+
+.card-stage[data-travel-phase="TRAVELLING"] {
+  transform: translate3d(0, var(--card-departure-target-y), 0) scale(0.86);
+}
+
+.card-stage[data-travel-phase="ARRIVING"] {
+  animation: card-arrive var(--card-animation-duration) cubic-bezier(.5, 1.2, .32, 1) both;
+}
+
+@keyframes card-departs {
+  from {
+    transform: translate3d(0, var(--card-departure-offset-y), 0) scale(var(--card-departure-scale));
+  }
+
+  to {
+    transform: translate3d(0, var(--card-departure-target-y), 0) scale(0.86);
+  }
+}
+
+@keyframes card-arrive {
+  from {
+    transform: translate3d(0, var(--card-arrival-origin-y), 0) scale(0.9);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
 }
 
 .card-button {

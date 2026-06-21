@@ -6,9 +6,16 @@ import * as star from "@src/card/star"
 import { Card } from "@src/card/type"
 
 export * from "@src/card/type"
-
-export const cards: Card[] = [
+export {
+    dwarfPlanet,
+    galaxy,
     introBanner,
+    moon,
+    planet,
+    star,
+}
+
+export const deck: Card[] = [
     star.sun,
     moon.moon,
     planet.mercury,
