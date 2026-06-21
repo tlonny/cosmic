@@ -7,6 +7,10 @@ export type Action = {
 };
 
 export function reduce(state: hook.state.State): hook.state.State {
+    if (state.introLoaded) {
+        return state
+    }
+
     const selectedBlurb = util.random.take(card.introBanner.blurb)
 
     if (!selectedBlurb.isSuccess) {

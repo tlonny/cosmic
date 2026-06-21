@@ -3,7 +3,6 @@ import {
     useReducer as useReactReducer,
 } from "react"
 import * as card from "@src/card"
-import * as addCard from "@src/hook/state/action/add-card"
 import * as cancelDrag from "@src/hook/state/action/cancel-drag"
 import * as endDrag from "@src/hook/state/action/end-drag"
 import * as setArriving from "@src/hook/state/action/set-arriving"
@@ -12,6 +11,7 @@ import * as setLoaded from "@src/hook/state/action/set-loaded"
 import * as setTravelling from "@src/hook/state/action/set-travelling"
 import * as startDrag from "@src/hook/state/action/start-drag"
 import * as updateDrag from "@src/hook/state/action/update-drag"
+import * as util from "@src/util"
 
 export type DragState = {
   pointerId: number;
@@ -33,7 +33,6 @@ export type Current = {
 
 export type State = {
   deck: card.Card[];
-  source: card.Card[];
   historyStack: Current[];
   futureStack: Current[];
   current: Current | null;
@@ -45,7 +44,6 @@ export type State = {
 
 export type Action =
   | setLoaded.Action
-  | addCard.Action
   | startDrag.Action
   | updateDrag.Action
   | endDrag.Action
@@ -56,32 +54,13 @@ export type Action =
 
 export type Dispatch = ReactDispatch<Action>
 
-const initialState: State = {
-    deck: [],
-    source: [],
-    historyStack: [],
-    futureStack: [],
-    current: null,
-    introLoaded: false,
-    drag: null,
-    departureOffsetY: 0,
-    travel: {
-        phase: "IDLE",
-        forward: true,
-    },
-}
-
 export function useState() {
-    return useReactReducer(reduce, initialState)
+    return useReactReducer(reduce, null, createInitialState)
 }
 
 function reduce(state: State, action: Action): State {
     if (action.type === "SET_LOADED") {
         return setLoaded.reduce(state)
-    }
-
-    if (action.type === "ADD_CARD") {
-        return addCard.reduce(state, action)
     }
 
     if (action.type === "START_DRAG") {
@@ -114,4 +93,20 @@ function reduce(state: State, action: Action): State {
 
     action satisfies never
     throw new Error("Invariant violation: unhandled state action.")
+}
+
+function createInitialState(): State {
+    return {
+        deck: util.random.shuffle(card.deck),
+        historyStack: [],
+        futureStack: [],
+        current: null,
+        introLoaded: false,
+        drag: null,
+        departureOffsetY: 0,
+        travel: {
+            phase: "IDLE",
+            forward: true,
+        },
+    }
 }
