@@ -8,7 +8,6 @@ import {
     getStageTransform,
     getStageTransition,
     isIdle,
-    isTraveling,
 } from "@src/ui/helper"
 import * as store from "@src/store"
 
@@ -28,7 +27,7 @@ export function SpaceFeed() {
     const selectedBlurb = store.useSpaceFeed((state) => state.selectedBlurb)
 
     const canInteract = isIdle(travelPhase)
-    const activeCard = isTraveling(travelPhase) ? null : card
+    const activeCard = card
     const offsetY = getDragOffset(travelPhase, drag)
     const stageStyle = useMemo(
         () => ({
@@ -86,7 +85,7 @@ export function SpaceFeed() {
                 {failedCount > 0 && <span>{failedCount} skipped</span>}
             </div>
 
-            {isTraveling(travelPhase) || !activeCard ? null : (
+            {!activeCard ? null : (
                 <div className="card-stage" style={stageStyle}>
                     <span className="body-heading">
                         <strong>{activeCard.title}</strong>

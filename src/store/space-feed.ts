@@ -169,17 +169,17 @@ export const useSpaceFeed = create<SpaceFeedState>((set, get) => ({
         })
 
         scheduleTimer(() => {
-            set({ travelPhase: "TRAVELING" })
+            get().drawNext()
+            set({ travelPhase: "SPAWNING" })
         }, DEPART_DURATION_MS)
 
         scheduleTimer(() => {
-            get().drawNext()
-            set({ travelPhase: "SPAWNING" })
-        }, DEPART_DURATION_MS + TRAVEL_DURATION_MS)
+            set({ travelPhase: "TRAVELING" })
+        }, DEPART_DURATION_MS + SPAWN_FRAME_DELAY_MS)
 
         scheduleTimer(() => {
             set({ travelPhase: "ARRIVING" })
-        }, DEPART_DURATION_MS + TRAVEL_DURATION_MS + SPAWN_FRAME_DELAY_MS)
+        }, DEPART_DURATION_MS + SPAWN_FRAME_DELAY_MS + TRAVEL_DURATION_MS)
 
         scheduleTimer(() => {
             set({ travelPhase: "IDLE" })

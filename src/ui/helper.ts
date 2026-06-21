@@ -14,10 +14,6 @@ export function isIdle(travelPhase: TravelPhase) {
     return travelPhase === "IDLE"
 }
 
-export function isTraveling(travelPhase: TravelPhase) {
-    return travelPhase === "TRAVELING"
-}
-
 export function getDragOffset(travelPhase: TravelPhase, drag: DragState | null) {
     return isIdle(travelPhase) ? drag?.offsetY ?? 0 : 0
 }
@@ -30,7 +26,7 @@ export function getStarKeyframes() {
   }
 
   100% {
-    transform: translate3d(0, ${STAR_TILE_SIZE}px, 0);
+    transform: translate3d(0, -${STAR_TILE_SIZE}px, 0);
   }
 }
 `
@@ -41,7 +37,7 @@ export function getStageTransform(travelPhase: TravelPhase, offsetY: number) {
         return "translate3d(0, -120vh, 0) scale(0.86)"
     }
 
-    if (travelPhase === "SPAWNING") {
+    if (travelPhase === "SPAWNING" || travelPhase === "TRAVELING") {
         return "translate3d(0, 110vh, 0) scale(0.9)"
     }
 
@@ -53,16 +49,12 @@ export function getStageTransition(travelPhase: TravelPhase, drag: DragState | n
         return `transform ${DEPART_DURATION_MS}ms cubic-bezier(.5, 0, 1, .65)`
     }
 
-    if (travelPhase === "TRAVELING") {
-        return `transform ${TRAVEL_DURATION_MS}ms linear`
-    }
-
-    if (travelPhase === "SPAWNING") {
+    if (travelPhase === "SPAWNING" || travelPhase === "TRAVELING") {
         return "none"
     }
 
     if (travelPhase === "ARRIVING") {
-        return `transform ${ARRIVAL_DURATION_MS}ms cubic-bezier(.16, 1.2, .32, 1)`
+        return `transform ${ARRIVAL_DURATION_MS}ms cubic-bezier(.5, 1.2, .32, 1)`
     }
 
     return drag ? "none" : "transform 520ms cubic-bezier(.16, 1.2, .32, 1)"
