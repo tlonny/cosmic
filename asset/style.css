@@ -38,8 +38,17 @@ button {
   isolation: isolate;
   overflow: hidden;
   touch-action: none;
+  cursor: grab;
   background: #050507;
   animation: space-feed-fade-in 800ms ease-out both;
+}
+
+.space-feed[data-dragging="true"] {
+  cursor: grabbing;
+}
+
+.space-feed[data-can-interact="false"] {
+  cursor: default;
 }
 
 @keyframes space-feed-fade-in {
@@ -133,16 +142,8 @@ button {
   padding: 0;
   color: inherit;
   background: transparent;
-  cursor: grab;
+  cursor: inherit;
   user-select: none;
-}
-
-.card-button:active {
-  cursor: grabbing;
-}
-
-.card-button:disabled {
-  cursor: default;
 }
 
 .body-image {
