@@ -50,7 +50,7 @@ export function Feed({ state, dispatch }: FeedProps) {
         [travel.forward],
     )
 
-    function handlePointerDown(event: PointerEvent<HTMLButtonElement>) {
+    function handlePointerDown(event: PointerEvent<HTMLElement>) {
         if (!canInteract || drag !== null) {
             return
         }
@@ -63,7 +63,7 @@ export function Feed({ state, dispatch }: FeedProps) {
         })
     }
 
-    function handlePointerMove(event: PointerEvent<HTMLButtonElement>) {
+    function handlePointerMove(event: PointerEvent<HTMLElement>) {
         if (!isActivePointer(event.pointerId, drag)) {
             return
         }
@@ -71,7 +71,7 @@ export function Feed({ state, dispatch }: FeedProps) {
         dispatch({ type: "UPDATE_DRAG", clientY: event.clientY })
     }
 
-    function handlePointerUp(event: PointerEvent<HTMLButtonElement>) {
+    function handlePointerUp(event: PointerEvent<HTMLElement>) {
         if (!isActivePointer(event.pointerId, drag)) {
             return
         }
@@ -82,6 +82,12 @@ export function Feed({ state, dispatch }: FeedProps) {
     return (
         <section
             className="space-feed"
+            data-can-interact={canInteract}
+            data-dragging={drag !== null}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={() => dispatch({ type: "CANCEL_DRAG" })}
         >
             <div
                 className="star-layer"
@@ -106,10 +112,6 @@ export function Feed({ state, dispatch }: FeedProps) {
                     type="button"
                     aria-label={`Swipe ${activeCard.title}`}
                     disabled={!canInteract}
-                    onPointerDown={handlePointerDown}
-                    onPointerMove={handlePointerMove}
-                    onPointerUp={handlePointerUp}
-                    onPointerCancel={() => dispatch({ type: "CANCEL_DRAG" })}
                 >
                     <img
                         key={activeCard.id}
