@@ -1,3 +1,4 @@
+export { callisto } from "@src/card/moon/callisto"
 export { charon } from "@src/card/moon/charon"
 export { enceladus } from "@src/card/moon/enceladus"
 export { europa } from "@src/card/moon/europa"
